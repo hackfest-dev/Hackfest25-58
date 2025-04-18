@@ -1,0 +1,44 @@
+Signature-Version: 1.0
+Created-By: Android Gradle 8.0.2
+SHA-256-Digest-Manifest: yRbGuSKN7gLLgiv+NtFFbTLshYFGfH7p88lCkHEfGBg=
+X-Android-APK-Signed: 2,3
+
+Name: AndroidManifest.xml
+SHA-256-Digest: KvLRkX/+dyl0rGltvj1kayBtCwELFEv7GtKr6Rd3O2E=
+
+Name: assets/IMG_7322.PNG
+SHA-256-Digest: rl/aGjDd5ea06tIdbuVPqVMTuaAapJNp681tBS08gQg=
+
+Name: assets/protected/reverse.txt
+SHA-256-Digest: niol6oIoABJNdfyvrhbKnrr68HI92ih8P9QRmR3KIEA=
+
+Name: classes.dex
+SHA-256-Digest: GombfatioJb6ma8XIgDBUPz8VScry7o5fENjttqffwc=
+
+Name: classes2.dex
+SHA-256-Digest: TML8xy0HySgVUqHKPaQoxb4FH/W/X4vRp6AOQMewjGk=
+
+Name: classes3.dex
+SHA-256-Digest: nMaPqPbWPDogRR9dGFqpNJqTKbFbm0G4mEO2oOkToao=
+
+Name: classes4.dex
+SHA-256-Digest: 88VxGw5MnB3M85cBuVGxMQ8/8z0MZiRiPrdI+05m5NE=
+
+Name: lib/arm64-v8a/libnpdcc.so
+SHA-256-Digest: nR9gCpmThVVATlkSIXwEIfP1sZKYNG8HIVxdzmFW/bw=
+
+Name: lib/armeabi-v7a/libnpdcc.so
+SHA-256-Digest: AZLdPbCOs7XdttIyk7Je+qRnOcGaSUxCToPCbsGlA9s=
+
+Name: res/drawable-xhdpi-v4/app_icon.png
+SHA-256-Digest: CNRayAGcQjEHPXu1u0q9hs0Tn/K7yTeMdtJncj55OVU=
+
+Name: res/drawable-xhdpi-v4/default_image.png
+SHA-256-Digest: aktsDrhwy3ex8ad59r3aoV+5TJncFYVy98Lcvjc4s44=
+
+Name: res/layout/main.xml
+SHA-256-Digest: bzMX7yLsd1sytbH4Qhs8kghC3idzw6+QKDnDuUD3NVs=
+
+Name: resources.arsc
+SHA-256-Digest: zb4aLKw699ojpT4buOAfVa00bry/mMbnV9Bv1sfuj1g=
+

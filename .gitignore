@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+env/
+*.log
+
+# Node (React)
+node_modules/
+build/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data and binaries
+data/apks/
+data/extracted/
+data/ghidra_output.json
+*.apk
+
+# VSCode & IDE
+.vscode/
+.idea/
+
+# Ghidra
+ghidra_project/

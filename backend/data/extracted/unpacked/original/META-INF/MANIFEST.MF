@@ -1,0 +1,43 @@
+Manifest-Version: 1.0
+Built-By: Signflinger
+Created-By: Android Gradle 8.0.2
+
+Name: AndroidManifest.xml
+SHA-256-Digest: icfrkLCtXu0r5NQSeY171St3lcP9OtzEf7P09/7tv2E=
+
+Name: assets/IMG_7322.PNG
+SHA-256-Digest: WakA9+B40pkgbb6bPHNwNODskwHakw368mowF57yqtU=
+
+Name: assets/protected/reverse.txt
+SHA-256-Digest: zbn0s3pdG/5PACouyYK4Qx/B4Og31NIZj1mFBfLWyig=
+
+Name: classes.dex
+SHA-256-Digest: hZnljJXp23nP90I9YnI7FSRKn6FRlLxBIiCV/sbI4zo=
+
+Name: classes2.dex
+SHA-256-Digest: OTEv3Jtl9mBu9SBUbw38ONgR8bnDk3FEk4iZXvTUOtM=
+
+Name: classes3.dex
+SHA-256-Digest: 8jU9aw7mquZTZ0ttGxpSeSxngR9W6apYnuDYc5DyvX4=
+
+Name: classes4.dex
+SHA-256-Digest: A7W9astZZ2/7HpIggUQ+GlMHzzoh5utHceTx51F6+EI=
+
+Name: lib/arm64-v8a/libnpdcc.so
+SHA-256-Digest: yL8f/n6nqbNWkgbzcG8g80l+lzjaHgzi64bEKQDmbZA=
+
+Name: lib/armeabi-v7a/libnpdcc.so
+SHA-256-Digest: aX/WsLda7wUJXlYtCh1GQFg1+qcB2gaE+Y5sFuHdJPA=
+
+Name: res/drawable-xhdpi-v4/app_icon.png
+SHA-256-Digest: LvvbjT6HOYcvu6AWQ7bzjTe/lwLmv2dbhg5lq+LyFaA=
+
+Name: res/drawable-xhdpi-v4/default_image.png
+SHA-256-Digest: B0d9ijOaAGx/hf4odj1JhA/R45GJYIgbcpizgNCiiUc=
+
+Name: res/layout/main.xml
+SHA-256-Digest: xb+bkO3yQbg2FuWWzOmzetPrgmC6Qk/5cJyfS1IxQ/g=
+
+Name: resources.arsc
+SHA-256-Digest: EMB5oqLQH6gjWpbwRUo7NEVJ68H+tWE+6uuscqBvECM=
+
