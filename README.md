@@ -1,4 +1,12 @@
-📁 Project Structure
+# 🛡️ ReverseAI - Malware Analysis Tool
+
+A complete AI-powered reverse engineering and malware analysis platform for Android APKs. It supports both static and native code analysis using **Ghidra**, **Radare2**, **CodeBERT**, and custom ML models.
+
+---
+
+## 📁 Project Structure
+
+```
 ReverseAI-MalwareTool/
 ├── backend/
 │   ├── app.py                     # Main Flask server
@@ -25,133 +33,133 @@ ReverseAI-MalwareTool/
 │   │   └── index.js               # React DOM rendering
 ├── README.md                      # You are here
 └── requirements.txt               # Python dependencies
+```
 
+---
 
-⚙️ Installation & Setup Guide
+## ⚙️ Installation & Setup Guide
 
-✅ Prerequisites
-You need the following installed on your system:
+### ✅ Prerequisites
 
+You need the following installed **on your system**:
 
-Tool	Version Recommended
-Python	3.10+
-Node.js + npm	16.x or 18.x
-Apktool	2.9+
-JADX	1.4+ (CLI)
-Ghidra	11+ (headless support)
-Radare2	5.9+
-Java	JDK 17 or 21
-🔧 Backend Setup
-Clone the repo:
+| Tool         | Version Recommended      |
+|--------------|---------------------------|
+| Python       | 3.10+                     |
+| Node.js + npm| 16.x or 18.x              |
+| Apktool      | 2.9+                      |
+| JADX         | 1.4+ (CLI)                |
+| Ghidra       | 11+ (headless support)    |
+| Radare2      | 5.9+                      |
+| Java         | JDK 17 or 21              |
 
-bash
-Copy
-Edit
-git clone https://github.com/your-org/ReverseAI-MalwareTool.git
-cd ReverseAI-MalwareTool/backend
-Create a virtual environment:
+---
 
-bash
-Copy
-Edit
-python -m venv venv
-venv\Scripts\activate     # on Windows
-Install dependencies:
+### 🔧 Backend Setup
 
-bash
-Copy
-Edit
-pip install -r requirements.txt
-Ensure tools are on PATH:
+1. **Clone the repo**:
+   ```bash
+   git clone https://github.com/your-org/ReverseAI-MalwareTool.git
+   cd ReverseAI-MalwareTool/backend
+   ```
 
-Add these to your environment variables:
+2. **Create a virtual environment**:
+   ```bash
+   python -m venv venv
+   venv\Scripts\activate     # on Windows
+   ```
 
-makefile
-Copy
-Edit
-C:\Windows\Apktool\
-C:\jadx\bin\
-C:\Tools\radare2\radare2-5.9.8-w64\bin
-Run backend server:
+3. **Install dependencies**:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-bash
-Copy
-Edit
-python app.py
-🌐 Frontend Setup
-Open a new terminal:
+4. **Ensure tools are on PATH**:
+   - Add these to your environment variables:
+     ```
+     C:\Windows\Apktool\
+     C:\jadx\bin\
+     C:\Tools\radare2\radare2-5.9.8-w64\bin
+     ```
 
-bash
-Copy
-Edit
-cd ../frontend
-npm install
-npm start
-React dev server runs at http://localhost:3000
+5. **Run backend server**:
+   ```bash
+   python app.py
+   ```
 
-🚀 How It Works
-➤ Step-by-Step Flow
-Upload APK from frontend.
+---
 
-Flask receives the file → saves it.
+### 🌐 Frontend Setup
 
-Extracts contents using:
+1. Open a new terminal:
+   ```bash
+   cd ../frontend
+   npm install
+   npm start
+   ```
 
-apktool (manifest + smali)
+2. React dev server runs at [http://localhost:3000](http://localhost:3000)
 
-jadx (Java source)
+---
 
-Runs:
+## 🚀 How It Works
 
-Permissions & API extraction
+### ➤ Step-by-Step Flow
 
-Obfuscation check
+1. **Upload APK** from frontend.
+2. Flask receives the file → saves it.
+3. Extracts contents using:
+   - `apktool` (manifest + smali)
+   - `jadx` (Java source)
+4. Runs:
+   - Permissions & API extraction
+   - Obfuscation check
+   - Native `.so` scanning via:
+     - 🧬 **Ghidra** (headless)
+     - 🔬 **Radare2** (assembly inspection)
+5. Java methods classified using **CodeBERT**.
+6. Final prediction using a trained **RandomForestClassifier**.
+7. Result JSON sent back to frontend.
+8. Frontend renders a beautiful report.
 
-Native .so scanning via:
+---
 
-🧬 Ghidra (headless)
+## 🧠 Technologies Used
 
-🔬 Radare2 (assembly inspection)
+| Feature                 | Tool |
+|------------------------|------|
+| APK unpacking          | Apktool |
+| Java decompilation     | JADX |
+| Native code reverse    | Ghidra |
+| Assembly inspection    | Radare2 |
+| Code classification    | CodeBERT |
+| Threat classification  | RandomForest |
+| Frontend UI            | React |
+| Backend API            | Flask |
 
-Java methods classified using CodeBERT.
+---
 
-Final prediction using a trained RandomForestClassifier.
+## 📂 Important Files (Backend)
 
-Result JSON sent back to frontend.
+| File | Role |
+|------|------|
+| `app.py` | Main backend logic |
+| `utils/feature_extractor.py` | Extracts APIs, permissions, decompiles code |
+| `utils/asm_inspector.py` | Runs Radare2 on `.so` files |
+| `utils/ghidra_runner.py` | Automates Ghidra headless execution |
+| `utils/codebert_classifier.py` | Uses HuggingFace model to classify methods |
+| `utils/threat_classifier.py` | Combines all signals to determine threat |
+| `ghidra_scripts/ghidra_extract.py` | Custom Ghidra Python logic |
+| `models/malware_classifier.py` | Our trained scikit-learn model |
 
-Frontend renders a beautiful report.
+---
 
-🧠 Technologies Used
+## ✅ Final Tips for Teammates
 
-Feature	            Tool
-APK unpacking	    Apktool
-Java decompilation	JADX
-Native code reverse	Ghidra
-Assembly inspection	Radare2
-Code classification	CodeBERT
-Threat classification	RandomForest
-Frontend UI	React
-Backend API	Flask
-📂 Important Files (Backend)
+- Make sure **tools run in command line** (like `apktool d test.apk`)
+- Use a real APK to test — fake/test ones may not have `.so` files.
+- If something fails, check:
+  - Output in terminal
+  - `data/` folder
+  - `print()` logs in `app.py`
 
-File	            Role
-app.py	        Main backend logic
-utils/feature_extractor.py	Extracts APIs,      permissions, decompiles code
-utils/asm_inspector.py	Runs Radare2 on .so files
-utils/ghidra_runner.py	Automates Ghidra headless execution
-utils/codebert_classifier.py	Uses HuggingFace model to classify methods
-utils/threat_classifier.py	Combines all signals to determine threat
-ghidra_scripts/ghidra_extract.py	Custom Ghidra Python logic
-models/malware_classifier.py	Our trained scikit-learn model
-✅ Final Tips for Teammates
-Make sure tools run in command line (like apktool d test.apk)
-
-Use a real APK to test — fake/test ones may not have .so files.
-
-If something fails, check:
-
-Output in terminal
-
-data/ folder
-
-print() logs in app.py
