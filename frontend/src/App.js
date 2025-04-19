@@ -93,13 +93,25 @@ function App() {
       </section>
 
       {loading && (
-        <p style={{
-          color: "#777",
-          fontStyle: "italic",
-          textAlign: "center"
-        }}>
-          ⏳ Analyzing APK... Please wait.
-        </p>
+        <div style={{ textAlign: 'center', marginTop: '2rem' }}>
+          <div style={{
+            border: '6px solid #f3f3f3',
+            borderTop: '6px solid #1976d2',
+            borderRadius: '50%',
+            width: '48px',
+            height: '48px',
+            animation: 'spin 1s linear infinite',
+            margin: '0 auto'
+          }} />
+          <p style={{ marginTop: '1rem', color: '#555' }}>🔄 Scanning APK... Please wait.</p>
+
+          <style>{`
+            @keyframes spin {
+              0% { transform: rotate(0deg); }
+              100% { transform: rotate(360deg); }
+            }
+          `}</style>
+        </div>
       )}
 
       {result && (
