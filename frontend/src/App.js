@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import ThreatReport from './components/ThreatReport';
+import ScanResults from './components/ScanResults';
 
 function App() {
   const [apk, setApk] = useState(null);
@@ -11,7 +12,7 @@ function App() {
 
   const handleFileChange = (e) => {
     setApk(e.target.files[0]);
-    setResult(null); // Reset previous result on new file select
+    setResult(null); // Clear previous results on new file
   };
 
   const handleUpload = async () => {
@@ -30,7 +31,7 @@ function App() {
       setResult(response.data);
     } catch (err) {
       console.error("Upload error:", err);
-      alert("❌ Failed to scan APK. Check if backend is running.");
+      alert("❌ Failed to scan APK. Please ensure the backend server is running.");
     } finally {
       setLoading(false);
     }
@@ -40,39 +41,74 @@ function App() {
     <div style={{
       padding: "2rem",
       fontFamily: "Segoe UI, sans-serif",
-      maxWidth: "900px",
+      maxWidth: "960px",
       margin: "0 auto"
     }}>
-      <h1 style={{ fontSize: "1.8rem", marginBottom: "1rem" }}>🛡️ ReverseAI - Malware Analysis Tool</h1>
+      <header style={{
+        marginBottom: "2rem",
+        textAlign: "center",
+        borderBottom: "1px solid #ddd",
+        paddingBottom: "1rem"
+      }}>
+        <h1 style={{ fontSize: "2rem", color: "#1976d2", marginBottom: "0.5rem" }}>
+          🛡️ ReverseAI - Malware Analysis Tool
+        </h1>
+        <p style={{ color: "#555", fontSize: "1rem" }}>
+          Upload any APK file and let AI uncover hidden threats using reverse engineering and code analysis.
+        </p>
+      </header>
 
-      <div style={{ marginBottom: "1rem" }}>
-        <input type="file" accept=".apk" onChange={handleFileChange} />
+      <section style={{
+        marginBottom: "2rem",
+        display: "flex",
+        flexDirection: "column",
+        gap: "1rem",
+        alignItems: "center"
+      }}>
+        <input
+          type="file"
+          accept=".apk"
+          onChange={handleFileChange}
+          style={{
+            padding: "0.5rem",
+            border: "1px solid #ccc",
+            borderRadius: "6px"
+          }}
+        />
         <button
           onClick={handleUpload}
           style={{
-            marginLeft: "1rem",
-            padding: "0.5rem 1rem",
-            background: "#1e88e5",
-            color: "#fff",
+            padding: "0.6rem 1.4rem",
+            background: apk ? "#1e88e5" : "#ccc",
+            color: "white",
+            fontWeight: "bold",
             border: "none",
-            borderRadius: "4px",
-            cursor: "pointer"
+            borderRadius: "8px",
+            cursor: apk ? "pointer" : "not-allowed"
           }}
+          disabled={!apk}
         >
-          Upload & Scan
+          🔍 Upload & Scan
         </button>
-      </div>
+      </section>
 
       {loading && (
-        <p style={{ marginTop: "1rem", color: "#888" }}>
-          🔄 Scanning APK... Please wait.
+        <p style={{
+          color: "#777",
+          fontStyle: "italic",
+          textAlign: "center"
+        }}>
+          ⏳ Analyzing APK... Please wait.
         </p>
       )}
 
       {result && (
-        <div style={{ marginTop: "2rem" }}>
-          <ThreatReport data={result} />
-        </div>
+        <>
+          <ScanResults result={result} />
+          <div style={{ marginTop: "2rem" }}>
+            <ThreatReport data={result} />
+          </div>
+        </>
       )}
     </div>
   );
