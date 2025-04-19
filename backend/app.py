@@ -1,14 +1,10 @@
+# backend/app.py
+
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import os
-import shutil
-import time
-
-# 🧠 AI Code Classification
+import os, shutil, time
 from utils.codebert_classifier import classify_method_code
 from utils.extract_methods import extract_java_methods
-
-# 🔍 Analysis Modules
 from utils.feature_extractor import unpack_apk, decompile_java, extract_permissions, list_api_calls
 from utils.deobfuscator import deobfuscate_code
 from utils.unzipper import analyze_apk_structure
@@ -24,7 +20,6 @@ UPLOAD_PATH = "data/apks/input.apk"
 APKTOOL_OUT = "data/extracted/unpacked"
 JADX_OUT = "data/extracted/code"
 
-
 def safe_delete(path, retries=3):
     for i in range(retries):
         try:
@@ -34,7 +29,6 @@ def safe_delete(path, retries=3):
         except Exception as e:
             print(f"[!] Retry delete {path} ({i+1}/{retries}): {e}")
             time.sleep(2)
-
 
 @app.route('/scan', methods=['POST'])
 def scan_apk():
@@ -46,29 +40,23 @@ def scan_apk():
     file.save(UPLOAD_PATH)
 
     try:
-        # 📦 Step 1: Analyze APK structure
         structure = analyze_apk_structure(UPLOAD_PATH)
-
-        # 🧹 Step 2: Cleanup old runs
         safe_delete(APKTOOL_OUT)
         safe_delete(JADX_OUT)
 
-        # 🔍 Step 3: Reverse Engineering
         unpack_apk(UPLOAD_PATH, APKTOOL_OUT)
         decompile_java(UPLOAD_PATH, JADX_OUT)
 
-        # 🧠 Step 4: Static Feature Extraction
         permissions = extract_permissions(os.path.join(APKTOOL_OUT, "AndroidManifest.xml"))
         api_calls = list_api_calls(JADX_OUT)
         obfuscated = deobfuscate_code(JADX_OUT)
+        suspicious_assets = structure["shell_scripts"] + structure["native_libs"] + structure["packed_assets"]
 
         features = [len(permissions), len(api_calls), len(obfuscated)]
-        result = predict(features)
+        is_malicious = bool(predict(features) == 1)
 
-        # 🔬 Step 5: Native Code Analysis (Ghidra + Radare2)
         ghidra_data = {}
         asm_data = {}
-
         for root, _, files in os.walk(os.path.join(APKTOOL_OUT, "lib")):
             for f in files:
                 if f.endswith(".so"):
@@ -78,42 +66,37 @@ def scan_apk():
 
                     print(f"[+] Running Radare2 on: {so_path}")
                     asm_data = run_radare2(so_path)
-                    break  # Only analyze the first .so
+                    break
 
-        # 🧠 Step 6: AI CodeBERT-based method classification
         java_methods = extract_java_methods(JADX_OUT)
         classified_methods = [
             {"type": classify_method_code(method), "code": method[:500]}
             for method in java_methods[:20]
-        ]
+        ] if java_methods else []
 
-        # 🛡️ Step 7: Threat Classification
-        threats = classify_threats(api_calls, permissions, obfuscated, structure)
+        threats = classify_threats(permissions, api_calls, len(obfuscated), suspicious_assets)
 
         return jsonify({
-            "malicious": bool(result),
+            "malicious": is_malicious,
             "permissions_count": len(permissions),
-            "api_calls_count": len(api_calls),
-            "obfuscation_count": len(obfuscated),
             "permissions": permissions[:10],
+            "api_calls_count": len(api_calls),
             "sample_api_calls": api_calls[:10],
+            "obfuscation_count": len(obfuscated),
             "obfuscation_type": "Shell script (.sh) detected" if structure["has_sh"] else "None",
-            "native_code": structure["has_native_libs"],
-            "asset_packing": structure["has_packed_assets"],
-            "suspicious_assets": structure["shell_scripts"] + structure["native_libs"] + structure["packed_assets"],
+            "native_code": bool(structure["has_native_libs"]),
+            "asset_packing": bool(structure["has_packed_assets"]),
+            "suspicious_assets": suspicious_assets,
             "native_analysis": ghidra_data,
-            "assembly_inspection": asm_data or {"status": "not available"},            "threats": threats,
-            "codebert_analysis": classified_methods
+            "assembly_inspection": asm_data or {"status": "not available"},
+            "codebert_analysis": classified_methods,
+            "threats": threats
         })
+
     except Exception as e:
         import traceback
-        traceback.print_exc()  # 👈 shows the full error in the console
+        traceback.print_exc()
         return jsonify({"error": str(e)}), 500
-    
-
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
 
 if __name__ == "__main__":
     app.run(port=5000)
